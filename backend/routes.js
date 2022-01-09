@@ -1,11 +1,10 @@
 // import express router to configure routes
 const router = require("express").Router();
 
-const checkAuthenticated = require("./middleware/checkAuthenticated");
-const checkNotAuthenticated = require("./middleware/checkNotAuthenticated");
-
 //import passport middleware
 const passport = require("passport");
+const checkAuthenticated = require("./middleware/checkAuthenticated");
+const checkNotAuthenticated = require("./middleware/checkNotAuthenticated");
 
 // import necessary controllers
 const userController = require("./controllers/userController");

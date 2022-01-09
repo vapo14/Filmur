@@ -25,7 +25,7 @@ const session = require("express-session");
 // get passport library
 const passport = require("passport");
 // passport config
-const initializePassport = require("./config/passport-config");
+const initializePassport = require("./config/passportConfig");
 initializePassport(passport);
 
 // configure express for sessions
