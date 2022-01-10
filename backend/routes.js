@@ -16,8 +16,10 @@ router.get("/", checkAuthenticated, (req, res) => {
 // define /user route as POST and assign its controller
 router.post("/user/create", userController.createUser);
 
-router.post("/user/login", passport.authenticate("local"), (req, res) => {
-  return res.send("Authenticated!");
-});
+router.post(
+  "/user/login",
+  passport.authenticate("local"),
+  userController.loginUser
+);
 
 module.exports = router;

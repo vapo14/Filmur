@@ -22,6 +22,9 @@ const cors = require("cors");
 // import express session for user sessions
 const session = require("express-session");
 
+// import connect-mongo for session store
+const MongoStore = require("connect-mongo");
+
 // get passport library
 const passport = require("passport");
 // passport config
@@ -29,11 +32,19 @@ const initializePassport = require("./config/passportConfig");
 initializePassport(passport);
 
 // configure express for sessions
+// calculate 2 days in milliseconds for cookie maxAge
+const sessionTime = 1000 * 60 * 60 * 48;
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      maxAge: 15000,
+    },
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_STR,
+    }),
   })
 );
 

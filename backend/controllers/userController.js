@@ -36,21 +36,15 @@ const createUser = async (req, res) => {
   }
 };
 
-// const loginUser = async (req, res) => {
-//   const foundUser = await user.findOne({ username: req.body.username });
-//   if (foundUser == null) {
-//     return res.status(400).send("Cannot find user");
-//   }
+/**
+ * Login a user and return its user ID
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns userID
+ */
+const loginUser = (req, res) => {
+  return res.send("Authenticated!" + "User ID: " + req.user._id);
+};
 
-//   try {
-//     if (await bcrypt.compare(req.body.password, foundUser.password)) {
-//       return res.send("success");
-//     } else {
-//       return res.send("Invalid Credentials");
-//     }
-//   } catch {
-//     return res.send("Not Allowed");
-//   }
-// };
-
-module.exports = { createUser };
+module.exports = { createUser, loginUser };
