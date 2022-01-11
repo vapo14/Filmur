@@ -8,18 +8,26 @@ const checkNotAuthenticated = require("./middleware/checkNotAuthenticated");
 
 // import necessary controllers
 const userController = require("./controllers/userController");
+const reviewController = require("./controllers/reviewController");
 
 router.get("/", checkAuthenticated, (req, res) => {
   return res.send("hi");
 });
 
-// define /user route as POST and assign its controller
+// ======= USER ROUTES =======
 router.post("/user/create", userController.createUser);
 
 router.post(
   "/user/login",
+  checkNotAuthenticated,
   passport.authenticate("local"),
   userController.loginUser
 );
+
+router.delete("/user/logout", checkAuthenticated, userController.logoutUser);
+
+// ======= REVIEWS ROUTES =======
+
+router.get("/reviews", checkAuthenticated, reviewController.getAllReviews);
 
 module.exports = router;

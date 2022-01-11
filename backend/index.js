@@ -40,7 +40,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 15000,
+      maxAge: 30000,
     },
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_STR,

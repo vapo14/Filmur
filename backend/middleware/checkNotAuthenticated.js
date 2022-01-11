@@ -8,7 +8,7 @@
 const checkNotAuthenticated = (req, res, next) => {
   // if the user is authenticated, return not allowed,
   // else continue next callback
-  if (req.user.isAuthenticated()) {
+  if (req.isAuthenticated()) {
     return res.status(400).send();
   }
   next();

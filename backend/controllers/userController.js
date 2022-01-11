@@ -47,4 +47,32 @@ const loginUser = (req, res) => {
   return res.send("Authenticated!" + "User ID: " + req.user._id);
 };
 
-module.exports = { createUser, loginUser };
+/**
+ * Logs out the user and clears session. Deletes cookie from client.
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns response with logged out message
+ */
+const logoutUser = (req, res) => {
+  // logout user using passport's interface
+  req.logOut();
+  // when destroyng the user session, if no error is detected,
+  // clear the session cookie from client to prevent session fixation attack
+  req.session.destroy((err) => {
+    if (!err) {
+      res
+        .status(200)
+        .clearCookie("connect.sid", { path: "/" })
+        .json({ status: "Success" });
+    } else {
+      // handle error case...
+      res.status(200).json({
+        status:
+          "Server ran into an error when logging you out. To ensure security, please clear your browser cookies and close your browser.",
+      });
+    }
+  });
+};
+
+module.exports = { createUser, loginUser, logoutUser };

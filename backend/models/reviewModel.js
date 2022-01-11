@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema(
   {
+    owner: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
@@ -18,9 +22,21 @@ const reviewSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    userLikes: {
+      type: [String],
+      required: true,
+    },
+    userSaves: {
+      type: [String],
+      required: true,
+    },
     imgURI: {
       type: String,
-      require: true,
+      required: true,
+    },
+    published: {
+      type: Date,
+      required: true,
     },
   },
   { collection: "Reviews" }
