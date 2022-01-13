@@ -9,6 +9,7 @@ const checkNotAuthenticated = require("./middleware/checkNotAuthenticated");
 // import necessary controllers
 const userController = require("./controllers/userController");
 const reviewController = require("./controllers/reviewController");
+const searchController = require("./controllers/searchController");
 
 router.get("/", checkAuthenticated, (req, res) => {
   return res.send("hi");
@@ -29,5 +30,15 @@ router.delete("/user/logout", checkAuthenticated, userController.logoutUser);
 // ======= REVIEWS ROUTES =======
 
 router.get("/reviews", checkAuthenticated, reviewController.getAllReviews);
+router.post("/reviews/upload", checkAuthenticated, reviewController.postReview);
+router.get("/review", checkAuthenticated, reviewController.getReviewById);
+router.get(
+  "/reviews/user",
+  checkAuthenticated,
+  reviewController.getReviewsByUserId
+);
+
+// ======= SEARCH ROUTES =======
+router.get("/search", searchController.searchMovie);
 
 module.exports = router;

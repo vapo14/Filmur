@@ -22,6 +22,10 @@ const reviewSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    commentCount: {
+      type: Number,
+      required: true,
+    },
     userLikes: {
       type: [String],
       required: true,
