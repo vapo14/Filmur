@@ -52,7 +52,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // let express app use cors config
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 // let express app use json parsing
 app.use(express.json());

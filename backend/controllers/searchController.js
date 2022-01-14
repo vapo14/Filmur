@@ -9,7 +9,7 @@ const searchMovie = async (req, res) => {
     if (data.data.errorMessage !== "") {
       return res.json({
         status: "FAILED",
-        message: "Search failed. Try again.",
+        message: `Search failed. IMDB error message: ${data.data.errorMessage}`,
       });
     }
     return res.send(data.data.results);

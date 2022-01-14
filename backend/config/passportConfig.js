@@ -10,6 +10,9 @@ const initialize = (passport) => {
   const authenticateUser = async (username, password, done) => {
     try {
       const user = await userModel.findOne({ username });
+      if (user === null || user === undefined) {
+        return done(null, false, { message: "Username does not exist." });
+      }
       if (await bcrypt.compare(password, user.password)) {
         return done(null, user);
       } else {
