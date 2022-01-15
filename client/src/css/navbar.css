@@ -1,0 +1,33 @@
+.navbar {
+  background-color: #02426b;
+}
+
+#main-icon {
+  width: 70%;
+}
+
+.menu-icons {
+  width: 80%;
+}
+
+#collasible-nav-dropdown {
+  font-size: 18px;
+}
+
+@media screen and (max-width: 844px) {
+  .menu-icons {
+    width: 100%;
+    padding: 0;
+  }
+  #collasible-nav-dropdown {
+    font-size: 12px;
+  }
+}
+
+.navbar-nav > a {
+  margin: 0 1rem 0 1rem;
+}
+
+.navbar-nav {
+  align-items: center;
+}

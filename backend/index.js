@@ -33,14 +33,17 @@ initializePassport(passport);
 
 // configure express for sessions
 // calculate 2 days in milliseconds for cookie maxAge
+//TODO: session time in mongo store
 const sessionTime = 1000 * 60 * 60 * 48;
 app.use(
   session({
+    name: "filmur_s",
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 30000,
+      maxAge: sessionTime,
+      httpOnly: false,
     },
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_STR,

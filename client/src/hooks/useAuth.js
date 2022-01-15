@@ -1,16 +1,24 @@
 import * as React from "react";
 import axiosInstance from "../api/axiosInstance";
+import Cookies from "js-cookie";
 
 const authContext = React.createContext();
 
 function useAuth() {
-  const [authed, setAuthed] = React.useState(true);
+  const [authed, setAuthed] = React.useState(false);
+
+  React.useEffect(() => {
+    if (Cookies.get("filmur_s")) {
+      setAuthed(true);
+    } else {
+      setAuthed(false);
+    }
+  }, [authed]);
 
   return {
     authed,
     login(credentials) {
       return new Promise(async (res) => {
-        console.log("sending: ", credentials);
         const data = await axiosInstance.post("/user/login", credentials);
         if (data.status === 200) {
           setAuthed(true);
@@ -18,12 +26,15 @@ function useAuth() {
           // handle message
           setAuthed(false);
         }
-        res();
+        res(data.data);
       });
     },
     logout() {
-      return new Promise((res) => {
-        setAuthed(false);
+      return new Promise(async (res) => {
+        const data = await axiosInstance.delete("/user/logout");
+        if (data.status === 200) {
+          setAuthed(false);
+        }
         res();
       });
     },

@@ -12,7 +12,10 @@ const createUser = async (req, res) => {
   // TODO: user info validation
   const exists = await user.find({ username: req.body.username });
   if (exists.length >= 1) {
-    return res.send("User Exists");
+    return res.json({
+      status: "FAILED",
+      message: "This username already exists.",
+    });
   } else {
     try {
       // create salt object with bcrypt
@@ -56,14 +59,15 @@ const loginUser = (req, res) => {
  */
 const logoutUser = (req, res) => {
   // logout user using passport's interface
-  req.logOut();
+
   // when destroyng the user session, if no error is detected,
   // clear the session cookie from client to prevent session fixation attack
   req.session.destroy((err) => {
     if (!err) {
+      req.logOut();
       res
         .status(200)
-        .clearCookie("connect.sid", { path: "/" })
+        .clearCookie("filmur_s", { path: "/" })
         .json({ status: "Success" });
     } else {
       // handle error case...

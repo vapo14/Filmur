@@ -1,45 +1,238 @@
 import { React, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import "../css/landing.css";
+import {
+  Container,
+  Row,
+  Col,
+  Image,
+  Button,
+  Modal,
+  Form,
+  Alert,
+} from "react-bootstrap";
+import catGIF from "../assets/landing/cat.gif";
+import mainLogo from "../assets/landing/text.png";
+import axiosInstance from "../api/axiosInstance";
 
 export default function LogIn() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const { state } = useLocation();
 
+  const [LoginModal, setLoginModal] = useState(false);
+  const [SignUpModal, setSignUpModal] = useState(false);
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState("");
+  const [UserExistsAlert, setUserExistsAlert] = useState(false);
+  const [Success, setSuccess] = useState(false);
+  const [EnableSignInButton, setEnableSignInButton] = useState(false);
+  const [InvalidCredentialsAlert, setInvalidCredentialsAlert] = useState(false);
 
   const handleLogin = async (e) => {
+    setInvalidCredentialsAlert(false);
     e.preventDefault();
     let credentials = {
       username: Username,
       password: Password,
     };
-    await login(credentials);
-    navigate(state?.path || "/home");
+    const data = await login(credentials);
+    console.log(data);
+    if (data === "Unauthorized") {
+      navigate(state?.path || "/reviews");
+    } else {
+      setInvalidCredentialsAlert(true);
+    }
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    setUserExistsAlert(false);
+    setEnableSignInButton(true);
+    let credentials = {
+      username: Username,
+      password: Password,
+    };
+    const data = await axiosInstance.post("/user/create", credentials);
+    if (data.data.status === "FAILED") {
+      setUserExistsAlert(true);
+      setEnableSignInButton(false);
+    } else {
+      setSuccess(true);
+    }
   };
 
   return (
-    <div>
-      <h1>Login page</h1>
-      <form>
-        <input
-          type="text"
-          name="Username"
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
-        />
-        <input
-          type="password"
-          name="Password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit" onClick={(e) => handleLogin(e)}>
-          Log In
-        </button>
-      </form>
+    <div className="login-page-container">
+      <Container className={LoginModal || SignUpModal ? "behind-modal" : ""}>
+        <Row>
+          <Col md={6} style={{ marginBottom: "4rem" }}>
+            <Image fluid src={mainLogo} alt="" id="main-logo-landing" />
+            <div>
+              <span className="sign-up-span">
+                <Button
+                  className="main-button"
+                  style={{ marginLeft: "1rem" }}
+                  onClick={() => setLoginModal(true)}
+                >
+                  Log In
+                </Button>
+                or
+                <span id="sign-up-link" onClick={() => setSignUpModal(true)}>
+                  Sign Up
+                </span>
+              </span>
+            </div>
+          </Col>
+          <Col md={6}>
+            <Image fluid src={catGIF} alt="" id="cat-gif" />
+          </Col>
+        </Row>
+      </Container>
+
+      <Modal
+        centered
+        show={LoginModal}
+        onHide={() => setLoginModal(false)}
+        style={{ textAlign: "center" }}
+      >
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          <h3
+            style={{
+              fontWeight: "bold",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            Welcome
+          </h3>
+          <Container>
+            <Form
+              style={{ textAlign: "left" }}
+              onSubmit={(e) => {
+                handleLogin(e);
+              }}
+            >
+              <Form.Group className="mb-3" controlId="loginUsername">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="username"
+                  placeholder="Enter username"
+                  onChange={(e) => setUsername(e.target.value)}
+                  required={true}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="loginPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required={true}
+                />
+                <Form.Text className="text-muted">
+                  Your password is always encrypted :)
+                </Form.Text>
+              </Form.Group>
+              <Alert
+                show={InvalidCredentialsAlert}
+                onClose={() => InvalidCredentialsAlert(false)}
+                variant="danger"
+                dismissible
+              >
+                <p>Invalid username or password.</p>
+              </Alert>
+              <Button className="main-button" type="submit">
+                Log In
+              </Button>
+            </Form>
+          </Container>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        centered
+        show={SignUpModal}
+        onHide={() => setSignUpModal(false)}
+        style={{ textAlign: "center" }}
+      >
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          <h3
+            style={{
+              fontWeight: "bold",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            Create your account
+          </h3>
+          <Container>
+            <Form
+              style={{ textAlign: "left" }}
+              onSubmit={(e) => {
+                handleSignUp(e);
+              }}
+            >
+              <Form.Group className="mb-3" controlId="signUpUsername">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="username"
+                  placeholder="Enter username"
+                  required
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="signUpPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="signUpConfirmPassword">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  required
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </Form.Group>
+              <Alert
+                show={UserExistsAlert}
+                onClose={() => setUserExistsAlert(false)}
+                variant="danger"
+                dismissible
+              >
+                <Alert.Heading>User already exists!</Alert.Heading>
+                <p>Try with a different username</p>
+              </Alert>
+              <Alert
+                show={Success}
+                onClose={() => setSuccess(false)}
+                variant="success"
+                dismissible
+              >
+                <Alert.Heading>User created!</Alert.Heading>
+                <p>Use your new username and password to login.</p>
+              </Alert>
+              <Button
+                className="main-button"
+                type="submit"
+                disabled={EnableSignInButton}
+              >
+                Sign Up
+              </Button>
+            </Form>
+          </Container>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }
