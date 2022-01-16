@@ -59,6 +59,7 @@ const loginUser = (req, res) => {
  */
 const logoutUser = (req, res) => {
   // logout user using passport's interface
+  // TODO: fix logout bug
   try {
     req.logOut();
     req.session.destroy((err) => {
