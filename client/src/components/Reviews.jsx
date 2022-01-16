@@ -11,11 +11,11 @@ import {
   Button,
 } from "react-bootstrap";
 import "../css/reviews.css";
+import YarnRating from "./YarnRating";
 
 export default function Reviews() {
   const { isLoading, isError, error, data } = useQuery("reviews", async () => {
     const data = await axiosInstance.get("/reviews");
-    console.log(data);
     return data.data;
   });
 
@@ -71,10 +71,11 @@ export default function Reviews() {
               <Card.Img variant="top" src={review.imgURI} />
               <Card.Body>
                 <Card.Title>{review.title}</Card.Title>
+                <YarnRating rating={review.yarnRating} />
                 <footer className="blockquote-footer">
                   {review.ownerUsername}
                 </footer>
-                <Card.Text>{review.content}</Card.Text>
+                <Card.Text>{review.content.slice(0, 100) + " ..."}</Card.Text>
                 <Button variant="primary">Go somewhere</Button>
               </Card.Body>
             </Card>

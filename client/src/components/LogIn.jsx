@@ -39,7 +39,6 @@ export default function LogIn() {
       password: Password,
     };
     const data = await login(credentials);
-    console.log(data);
     if (data === "Unauthorized") {
       navigate(state?.path || "/reviews");
     } else {

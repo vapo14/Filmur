@@ -59,24 +59,19 @@ const loginUser = (req, res) => {
  */
 const logoutUser = (req, res) => {
   // logout user using passport's interface
-
-  // when destroyng the user session, if no error is detected,
-  // clear the session cookie from client to prevent session fixation attack
-  req.session.destroy((err) => {
-    if (!err) {
-      req.logOut();
-      res
-        .status(200)
-        .clearCookie("filmur_s", { path: "/" })
-        .json({ status: "Success" });
-    } else {
-      // handle error case...
-      res.status(200).json({
-        status:
-          "Server ran into an error when logging you out. To ensure security, please clear your browser cookies and close your browser.",
-      });
-    }
-  });
+  try {
+    req.logOut();
+    req.session.destroy((err) => {
+      res.clearCookie("filmur_s");
+      // Don't redirect, just print text
+      res.send("Logged out");
+    });
+  } catch {
+    res.status(200).json({
+      status:
+        "Server ran into an error when logging you out. To ensure security, please clear your browser cookies and close your browser.",
+    });
+  }
 };
 
 module.exports = { createUser, loginUser, logoutUser };
