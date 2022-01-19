@@ -1,3 +1,7 @@
 .post-main-form {
   margin-top: 10rem;
 }
+
+.post-review-textarea {
+  height: 20rem;
+}

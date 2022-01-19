@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema(
   {
+    movieId: {
+      type: String,
+      required: true,
+    },
     owner: {
       type: String,
       required: true,

@@ -47,7 +47,7 @@ const createUser = async (req, res) => {
  * @returns userID
  */
 const loginUser = (req, res) => {
-  return res.send("Authenticated!" + "User ID: " + req.user._id);
+  return res.json({ username: req.user.username, userId: req.user._id });
 };
 
 /**
@@ -61,8 +61,8 @@ const logoutUser = (req, res) => {
   // logout user using passport's interface
   // TODO: fix logout bug
   try {
-    req.logOut();
     req.session.destroy((err) => {
+      req.logOut();
       res.clearCookie("filmur_s");
       // Don't redirect, just print text
       res.send("Logged out");

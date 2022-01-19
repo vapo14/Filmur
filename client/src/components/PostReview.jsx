@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState } from "react";
 import {
   Container,
   Row,
@@ -8,69 +8,79 @@ import {
   FormControl,
 } from "react-bootstrap";
 import "../css/postReview.css";
+import SearchMovie from "./SearchMovie";
 import YarnRating from "./YarnRating";
+import useAuth from "../hooks/useAuth";
 
-// owner: {
-//     type: String,
-//     required: true,
-//   },
-//   ownerUsername: {
-//     type: String,
-//     required: true,
-//   },
-//   title: {
-//     type: String,
-//     required: true,
-//   },
-//   content: {
-//     type: String,
-//     required: true,
-//   },
-//   yarnRating: {
-//     type: Number,
-//     required: true,
-//   },
-//   likeCount: {
-//     type: Number,
-//     required: true,
-//   },
-//   commentCount: {
-//     type: Number,
-//     required: true,
-//   },
-//   userLikes: {
-//     type: [String],
-//     required: true,
-//   },
-//   userSaves: {
-//     type: [String],
-//     required: true,
-//   },
-//   imgURI: {
-//     type: String,
-//     required: true,
-//   },
-//   published: {
-//     type: Date,
-//     required: true,
-//   },
+export default function PostReview(props) {
+  const { UserData } = useAuth();
 
-export default function PostReview() {
+  const [MovieData, setMovieData] = useState({
+    owner: "",
+    ownerUsername: "",
+    title: "",
+    content: "",
+    yarnRating: 0,
+    likeCount: 0,
+    commentCount: 0,
+    userLikes: [],
+    userSaves: [],
+    imgURI: "",
+    published: "",
+  });
+
+  const handlePostSubmit = (e) => {
+    e.preventDefault();
+    setMovieData({
+      ...MovieData,
+      published: new Date(),
+      owner: UserData.userId,
+      ownerUsername: UserData.username,
+    });
+    console.log(MovieData);
+  };
+
   return (
     <div>
       <Container>
         <Row>
-          <Col md={6}></Col>
           <Col md={6}>
-            <Form className="post-main-form">
+            <SearchMovie
+              setMovieData={setMovieData}
+              MovieData={MovieData}
+            ></SearchMovie>
+          </Col>
+          <Col md={6}>
+            <Form
+              className="post-main-form"
+              onSubmit={(e) => handlePostSubmit(e)}
+            >
               <Form.Group className="mb-3">
                 <Form.Label>Title</Form.Label>
-                <Form.Control type="text" placeholder="Review title" />
+                <Form.Control
+                  type="text"
+                  placeholder="Review title"
+                  onChange={(e) =>
+                    setMovieData({ ...MovieData, title: e.target.value })
+                  }
+                />
               </Form.Group>
-              <YarnRating select></YarnRating>
+              <YarnRating
+                select
+                setMovieData={setMovieData}
+                MovieData={MovieData}
+              ></YarnRating>
               <Form.Group className="mb-3">
                 <Form.Label>Content</Form.Label>
-                <FormControl as="textarea" aria-label="content" />
+                <FormControl
+                  as="textarea"
+                  aria-label="content"
+                  className="post-review-textarea"
+                  placeholder="Write your review here!"
+                  onChange={(e) =>
+                    setMovieData({ ...MovieData, content: e.target.value })
+                  }
+                />
               </Form.Group>
               <Button className="main-button" type="submit">
                 Post

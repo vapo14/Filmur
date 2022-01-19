@@ -8,7 +8,7 @@ import mainIcon from "../assets/imgs/filmur_logo.png";
 import { Navbar, Container, Nav, NavDropdown, Badge } from "react-bootstrap";
 
 export default function NavBar() {
-  const { logout } = useAuth();
+  const { logout, UserData } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -34,7 +34,7 @@ export default function NavBar() {
             <Link to="/saved">
               <img className="menu-icons" src={savedIcon} alt="" />
             </Link>
-            <NavDropdown title="Username" id="collasible-nav-dropdown">
+            <NavDropdown title={UserData.username} id="collasible-nav-dropdown">
               <NavDropdown.Item href="" disabled>
                 Settings <Badge bg="secondary">Coming Soon</Badge>
               </NavDropdown.Item>

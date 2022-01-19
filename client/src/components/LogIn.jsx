@@ -11,6 +11,7 @@ import {
   Modal,
   Form,
   Alert,
+  Toast,
 } from "react-bootstrap";
 import catGIF from "../assets/landing/cat.gif";
 import mainLogo from "../assets/landing/text.png";
@@ -39,7 +40,7 @@ export default function LogIn() {
       password: Password,
     };
     const data = await login(credentials);
-    if (data === "Unauthorized") {
+    if (data !== "FAILED") {
       navigate(state?.path || "/reviews");
     } else {
       setInvalidCredentialsAlert(true);
@@ -55,7 +56,7 @@ export default function LogIn() {
       password: Password,
     };
     const data = await axiosInstance.post("/user/create", credentials);
-    if (data.data.status === "FAILED") {
+    if (data.status === "FAILED") {
       setUserExistsAlert(true);
       setEnableSignInButton(false);
     } else {
@@ -91,12 +92,7 @@ export default function LogIn() {
         </Row>
       </Container>
 
-      <Modal
-        centered
-        show={LoginModal}
-        onHide={() => setLoginModal(false)}
-        style={{ textAlign: "center" }}
-      >
+      <Modal centered show={LoginModal} style={{ textAlign: "center" }}>
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           <h3
@@ -108,6 +104,31 @@ export default function LogIn() {
           >
             Welcome
           </h3>
+          <Toast
+            onClose={() => setInvalidCredentialsAlert(false)}
+            show={InvalidCredentialsAlert}
+            delay={10000}
+            style={{
+              margin: "2rem auto 2rem auto",
+              width: "fit-content",
+              backgroundColor: "#f5554a",
+              color: "white",
+              borderRadius: "1rem",
+            }}
+            autohide
+          >
+            <Toast.Header
+              style={{
+                borderTopLeftRadius: "1rem",
+                borderTopRightRadius: "1rem",
+                backgroundColor: "transparent",
+                color: "white",
+              }}
+            >
+              <strong className="me-auto">Oops!</strong>
+            </Toast.Header>
+            <Toast.Body>Wrong username or password, try again.</Toast.Body>
+          </Toast>
           <Container>
             <Form
               style={{ textAlign: "left" }}
@@ -136,14 +157,6 @@ export default function LogIn() {
                   Your password is always encrypted :)
                 </Form.Text>
               </Form.Group>
-              <Alert
-                show={InvalidCredentialsAlert}
-                onClose={() => InvalidCredentialsAlert(false)}
-                variant="danger"
-                dismissible
-              >
-                <p>Invalid username or password.</p>
-              </Alert>
               <Button className="main-button" type="submit">
                 Log In
               </Button>

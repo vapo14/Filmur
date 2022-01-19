@@ -11,6 +11,11 @@ export default function YarnRating(props) {
     setSelectedAmount(parseInt(e.target.id));
   };
 
+  const handleYarnClick = (e) => {
+    setSelectedAmount(parseInt(e.target.id));
+    props.setMovieData({ ...props.MovieData, yarnRating: SelectedAmount });
+  };
+
   if (props.select) {
     return (
       <div className="yarn-container" style={{ margin: "2rem 0 1rem 0" }}>
@@ -22,7 +27,8 @@ export default function YarnRating(props) {
                 className="yarn select-yarn yarn-active"
                 key={id}
                 id={id}
-                onMouseEnter={(e) => handleYarnHover(e)}
+                onMouseOver={(e) => handleYarnHover(e)}
+                onClick={(e) => handleYarnClick(e)}
               ></div>
             );
           } else {

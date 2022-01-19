@@ -43,3 +43,27 @@ code {
   background-color: #ff9900;
   border-color: #02426b;
 }
+
+/*==== SCROLL BAR =====*/
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ff9900;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #be7507;
+}
