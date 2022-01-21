@@ -31,6 +31,8 @@ const passport = require("passport");
 const initializePassport = require("./config/passportConfig");
 initializePassport(passport);
 
+const path = require("path");
+
 // configure express for sessions
 // calculate 2 days in milliseconds for cookie maxAge
 //TODO: session time in mongo store
@@ -62,11 +64,20 @@ app.use(
   })
 );
 
+// setup build directory for serving static frontend
+app.use(express.static(path.join(__dirname, "build")));
+
 // let express app use json parsing
 app.use(express.json());
 
 // setup routes, default route is /api
 app.use("/api", routes);
+
+// prevent any undefined routes from loading,
+// only redirect to main react app
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/build/index.html"));
+});
 
 // connect mongoose to MongoDB database
 mongoose.connect(process.env.MONGO_STR);
