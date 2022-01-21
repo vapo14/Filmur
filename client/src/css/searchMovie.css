@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 10rem;
+  margin-top: 5rem;
   width: 75%;
 }
 
@@ -16,10 +16,13 @@
   border: solid rgb(224, 224, 224) 0.5px;
 }
 
+.list-group-item {
+  border-color: transparent;
+}
+
 .search-results-list > li {
   margin: 1rem 0 1rem 0;
   border-radius: 0.5rem;
-  border: none;
   -webkit-box-shadow: 0px 0px 8px -5px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 8px -5px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 8px -5px rgba(0, 0, 0, 0.75);
@@ -37,4 +40,13 @@
 .list-group-item:last-child {
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
+}
+
+.list-group-item + .list-group-item {
+  border-top-width: 1px;
+}
+
+.selected-movie {
+  background-color: #ff99001c;
+  border-color: #ff9900;
 }

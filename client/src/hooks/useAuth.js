@@ -6,7 +6,10 @@ const authContext = React.createContext();
 
 function useAuth() {
   const [authed, setAuthed] = React.useState(false);
-  const [UserData, setUserData] = React.useState({ username: "", userId: "" });
+  const [UserData, setUserData] = React.useState({
+    username: localStorage.getItem("username") || "",
+    userId: localStorage.getItem("userId") || "",
+  });
 
   React.useEffect(() => {
     if (Cookies.get("filmur_s")) {
@@ -24,10 +27,12 @@ function useAuth() {
         const data = await axiosInstance
           .post("/user/login", credentials)
           .catch((error) => {
-            return { status: "FAILED" };
+            return { status: "FAILED", message: error };
           });
         if (data.status === 200) {
           setUserData(data.data);
+          localStorage.setItem("username", data.data.username);
+          localStorage.setItem("userId", data.data.userId);
           setAuthed(true);
         } else {
           // handle message
@@ -41,6 +46,8 @@ function useAuth() {
         const data = await axiosInstance.delete("/user/logout");
         if (data.status === 200) {
           setUserData({ username: "", userId: "" });
+          localStorage.removeItem("username");
+          localStorage.removeItem("userId");
           setAuthed(false);
         }
         res();

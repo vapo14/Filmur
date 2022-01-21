@@ -5,6 +5,7 @@ import "../css/searchMovie.css";
 
 export default function SearchMovie(props) {
   const [SearchData, setSearchData] = useState({ slug: "", results: [] });
+  const [SelectedMovieIdx, setSelectedMovieIdx] = useState();
 
   useEffect(() => {
     //api call
@@ -22,9 +23,10 @@ export default function SearchMovie(props) {
     }
   }, [SearchData.slug]);
 
-  const handleSelectMovie = (movieId, imgURI) => {
+  const handleSelectMovie = (movieId, imgURI, idx) => {
     props.setMovieData({ ...props.MovieData, movieId, imgURI });
-    console.log("Selected movie: ", movieId, imgURI);
+    setSelectedMovieIdx(idx);
+    console.log("Selected movie: ", movieId, imgURI, SelectedMovieIdx);
   };
 
   return (
@@ -41,9 +43,13 @@ export default function SearchMovie(props) {
           return (
             <ListGroup.Item
               as="li"
-              className="d-flex justify-content-between align-items-start"
+              className={
+                SelectedMovieIdx === idx
+                  ? "d-flex justify-content-between align-items-start selected-movie"
+                  : "d-flex justify-content-between align-items-start"
+              }
               key={idx}
-              onClick={() => handleSelectMovie(movie.id, movie.image)}
+              onClick={() => handleSelectMovie(movie.id, movie.image, idx)}
             >
               <div className="ms-2 me-auto">
                 <div className="fw-bold">{movie.title}</div>

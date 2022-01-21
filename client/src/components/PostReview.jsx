@@ -6,89 +6,155 @@ import {
   Form,
   Button,
   FormControl,
+  Toast,
+  Spinner,
+  Image,
 } from "react-bootstrap";
 import "../css/postReview.css";
 import SearchMovie from "./SearchMovie";
 import YarnRating from "./YarnRating";
-import useAuth from "../hooks/useAuth";
+import axiosInstance from "../api/axiosInstance";
+import { useMutation } from "react-query";
+import successIcon from "../assets/icons/success.svg";
+//import failedIcon from "../assets/icons/failed.svg";
 
 export default function PostReview(props) {
-  const { UserData } = useAuth();
-
+  const [ShowErrorAlert, setShowErrorAlert] = useState(false);
   const [MovieData, setMovieData] = useState({
-    owner: "",
-    ownerUsername: "",
     title: "",
     content: "",
-    yarnRating: 0,
-    likeCount: 0,
-    commentCount: 0,
-    userLikes: [],
-    userSaves: [],
     imgURI: "",
-    published: "",
+  });
+
+  const postReview = useMutation((newReview) => {
+    return axiosInstance.post("/reviews/upload", newReview);
   });
 
   const handlePostSubmit = (e) => {
     e.preventDefault();
     setMovieData({
       ...MovieData,
-      published: new Date(),
-      owner: UserData.userId,
-      ownerUsername: UserData.username,
     });
+    if (
+      MovieData.movieId === "" ||
+      !MovieData.movieId ||
+      MovieData.yarnRating === 0 ||
+      !MovieData.yarnRating
+    ) {
+      setShowErrorAlert(true);
+      return;
+    } else {
+      postReview.mutate(MovieData);
+    }
     console.log(MovieData);
   };
 
-  return (
-    <div>
-      <Container>
-        <Row>
-          <Col md={6}>
-            <SearchMovie
-              setMovieData={setMovieData}
-              MovieData={MovieData}
-            ></SearchMovie>
-          </Col>
-          <Col md={6}>
-            <Form
-              className="post-main-form"
-              onSubmit={(e) => handlePostSubmit(e)}
+  if (postReview.isLoading) {
+    return (
+      <div>
+        <Container style={{ marginTop: "20rem" }}>
+          <Row>
+            <Col style={{ textAlign: "center" }}>
+              <Spinner
+                style={{
+                  width: "8rem",
+                  height: "8rem",
+                  backgroundColor: "#FF9900",
+                }}
+                animation="grow"
+              />
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  } else if (postReview.isSuccess) {
+    return (
+      <div>
+        <Container style={{ marginTop: "20rem" }}>
+          <Row>
+            <Col style={{ textAlign: "center" }}>
+              <h2>Your review was submitted successfully!</h2>
+              <Image
+                src={successIcon}
+                style={{
+                  width: "10rem",
+                  height: "10rem",
+                }}
+              />
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <Container>
+          <Row>
+            <Toast
+              onClose={() => setShowErrorAlert(false)}
+              show={ShowErrorAlert}
+              className="main-error-toast post-error-toast"
             >
-              <Form.Group className="mb-3">
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Review title"
-                  onChange={(e) =>
-                    setMovieData({ ...MovieData, title: e.target.value })
-                  }
-                />
-              </Form.Group>
-              <YarnRating
-                select
+              <Toast.Header>
+                <strong className="me-auto">Check your data</strong>
+              </Toast.Header>
+              <Toast.Body>
+                Oops, looks like you are missing some details for your movie
+                review.
+              </Toast.Body>
+            </Toast>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <SearchMovie
                 setMovieData={setMovieData}
                 MovieData={MovieData}
-              ></YarnRating>
-              <Form.Group className="mb-3">
-                <Form.Label>Content</Form.Label>
-                <FormControl
-                  as="textarea"
-                  aria-label="content"
-                  className="post-review-textarea"
-                  placeholder="Write your review here!"
-                  onChange={(e) =>
-                    setMovieData({ ...MovieData, content: e.target.value })
-                  }
-                />
-              </Form.Group>
-              <Button className="main-button" type="submit">
-                Post
-              </Button>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  );
+              ></SearchMovie>
+            </Col>
+            <Col md={6}>
+              <Form
+                className="post-main-form"
+                onSubmit={(e) => handlePostSubmit(e)}
+              >
+                <Form.Group className="mb-3">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Review title"
+                    onChange={(e) =>
+                      setMovieData({ ...MovieData, title: e.target.value })
+                    }
+                    required
+                  />
+                </Form.Group>
+                <YarnRating
+                  select
+                  setMovieData={setMovieData}
+                  MovieData={MovieData}
+                ></YarnRating>
+                <Form.Group className="mb-3">
+                  <Form.Label>Content</Form.Label>
+                  <FormControl
+                    as="textarea"
+                    aria-label="content"
+                    className="post-review-textarea"
+                    placeholder="Write your review here!"
+                    onChange={(e) =>
+                      setMovieData({ ...MovieData, content: e.target.value })
+                    }
+                    required
+                  />
+                </Form.Group>
+                <Button className="main-button" type="submit">
+                  Post
+                </Button>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  }
 }

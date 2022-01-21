@@ -67,3 +67,17 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: #be7507;
 }
+
+.main-error-toast {
+  margin: 2rem auto 2rem auto;
+  width: fit-content;
+  background-color: #ff5145;
+  color: white;
+  border-radius: 1rem;
+  border: none;
+}
+
+.main-error-toast > .toast-header {
+  background-color: transparent;
+  color: white;
+}

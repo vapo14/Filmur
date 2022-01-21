@@ -68,7 +68,10 @@ export default function Reviews() {
         {data.map((review) => {
           return (
             <Card key={review._id}>
-              <Card.Img variant="top" src={review.imgURI} />
+              <Card.Img
+                variant="top"
+                src={review.imgURI.replace("original", "160x253")}
+              />
               <Card.Body>
                 <Card.Title>{review.title}</Card.Title>
                 <YarnRating rating={review.yarnRating} />

@@ -36,6 +36,9 @@ export default function NavBar() {
             </Link>
             <NavDropdown title={UserData.username} id="collasible-nav-dropdown">
               <NavDropdown.Item href="" disabled>
+                Posts <Badge bg="secondary">Coming Soon</Badge>
+              </NavDropdown.Item>
+              <NavDropdown.Item href="" disabled>
                 Settings <Badge bg="secondary">Coming Soon</Badge>
               </NavDropdown.Item>
               <NavDropdown.Divider />

@@ -92,7 +92,12 @@ export default function LogIn() {
         </Row>
       </Container>
 
-      <Modal centered show={LoginModal} style={{ textAlign: "center" }}>
+      <Modal
+        centered
+        show={LoginModal}
+        style={{ textAlign: "center" }}
+        onHide={() => setLoginModal(false)}
+      >
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           <h3
@@ -108,13 +113,7 @@ export default function LogIn() {
             onClose={() => setInvalidCredentialsAlert(false)}
             show={InvalidCredentialsAlert}
             delay={10000}
-            style={{
-              margin: "2rem auto 2rem auto",
-              width: "fit-content",
-              backgroundColor: "#f5554a",
-              color: "white",
-              borderRadius: "1rem",
-            }}
+            className="main-error-toast"
             autohide
           >
             <Toast.Header

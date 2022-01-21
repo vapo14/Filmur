@@ -6,7 +6,7 @@ const reviewModel = require("../models/reviewModel");
  * @param {*} res
  */
 const getAllReviews = async (req, res) => {
-  res.json(await reviewModel.find().sort({ published: 1 }));
+  res.json(await reviewModel.find().sort({ published: -1 }));
 };
 
 /**
@@ -16,7 +16,7 @@ const getAllReviews = async (req, res) => {
  */
 const getReviewsByUserId = async (req, res) => {
   res.json(
-    await reviewModel.find({ owner: req.user._id }).sort({ published: 1 })
+    await reviewModel.find({ owner: req.user._id }).sort({ published: -1 })
   );
 };
 
@@ -27,7 +27,9 @@ const getReviewById = async (req, res) => {
 const postReview = async (req, res) => {
   try {
     let newPost = new reviewModel({
+      movieId: req.body.movieId,
       owner: req.user._id,
+      ownerUsername: req.user.username,
       title: req.body.title,
       content: req.body.content,
       yarnRating: req.body.yarnRating,
