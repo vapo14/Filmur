@@ -18,6 +18,14 @@ code {
     monospace;
 }
 
+a {
+  color: white;
+  text-decoration: none;
+}
+a:hover {
+  color: white;
+}
+
 .main-button {
   background-color: #ff9900;
   color: white;
@@ -31,6 +39,10 @@ code {
 .main-button:hover {
   background-color: #be7507;
   border-color: #02426b;
+}
+
+.main-button:active:focus {
+  border-color: none;
 }
 
 .main-button:focus {
@@ -80,4 +92,33 @@ code {
 .main-error-toast > .toast-header {
   background-color: transparent;
   color: white;
+}
+
+.main-exit-button {
+  -webkit-box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.75);
+  width: 3rem;
+  height: 3rem;
+  background-color: white;
+  position: absolute;
+  right: -1rem;
+  top: -1rem;
+  border-radius: 100%;
+  display: flex;
+  justify-items: center;
+  padding: 0.9rem;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.main-exit-button:hover {
+  transform: scale(1.3);
+}
+
+.grow {
+  transition: all 0.3s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.05);
 }

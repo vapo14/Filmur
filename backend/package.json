@@ -4,13 +4,14 @@
   "description": "Filmur Backend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
   },
   "author": "Victor Padron",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.24.0",
-    "bcrypt": "^5.0.1",
+    "bcrypt": "^5.0.0",
     "connect-mongo": "^4.6.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -19,5 +20,8 @@
     "mongoose": "^6.1.5",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

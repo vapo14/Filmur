@@ -10,6 +10,7 @@ import {
   Card,
   Button,
 } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "../css/reviews.css";
 import YarnRating from "./YarnRating";
 
@@ -67,11 +68,8 @@ export default function Reviews() {
       <Container className="review-container">
         {data.map((review) => {
           return (
-            <Card key={review._id}>
-              <Card.Img
-                variant="top"
-                src={review.imgURI.replace("original", "160x253")}
-              />
+            <Card key={review._id} className="grow">
+              <Card.Img variant="top" src={review.imgURI} />
               <Card.Body>
                 <Card.Title>{review.title}</Card.Title>
                 <YarnRating rating={review.yarnRating} />
@@ -79,7 +77,9 @@ export default function Reviews() {
                   {review.ownerUsername}
                 </footer>
                 <Card.Text>{review.content.slice(0, 100) + " ..."}</Card.Text>
-                <Button variant="primary">Go somewhere</Button>
+                <Link to={`/review/${review._id}`}>
+                  <Button className="main-button">Read more</Button>
+                </Link>
               </Card.Body>
             </Card>
           );

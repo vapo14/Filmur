@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import "../css/landing.css";
 import {
@@ -20,7 +20,6 @@ import axiosInstance from "../api/axiosInstance";
 export default function LogIn() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const { state } = useLocation();
 
   const [LoginModal, setLoginModal] = useState(false);
   const [SignUpModal, setSignUpModal] = useState(false);
@@ -30,9 +29,11 @@ export default function LogIn() {
   const [UserExistsAlert, setUserExistsAlert] = useState(false);
   const [Success, setSuccess] = useState(false);
   const [EnableSignInButton, setEnableSignInButton] = useState(false);
+  const [EnableLogInButton, setEnableLogInButton] = useState(false);
   const [InvalidCredentialsAlert, setInvalidCredentialsAlert] = useState(false);
 
   const handleLogin = async (e) => {
+    setEnableLogInButton(true);
     setInvalidCredentialsAlert(false);
     e.preventDefault();
     let credentials = {
@@ -41,9 +42,10 @@ export default function LogIn() {
     };
     const data = await login(credentials);
     if (data !== "FAILED") {
-      navigate(state?.path || "/reviews");
+      navigate("/home");
     } else {
       setInvalidCredentialsAlert(true);
+      setEnableLogInButton(false);
     }
   };
 
@@ -156,7 +158,11 @@ export default function LogIn() {
                   Your password is always encrypted :)
                 </Form.Text>
               </Form.Group>
-              <Button className="main-button" type="submit">
+              <Button
+                className="main-button"
+                type="submit"
+                disabled={EnableLogInButton}
+              >
                 Log In
               </Button>
             </Form>
