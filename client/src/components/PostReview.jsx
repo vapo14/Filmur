@@ -16,7 +16,7 @@ import YarnRating from "./YarnRating";
 import axiosInstance from "../api/axiosInstance";
 import { useMutation } from "react-query";
 import successIcon from "../assets/icons/success.svg";
-//import failedIcon from "../assets/icons/failed.svg";
+import failedIcon from "../assets/icons/failed.svg";
 
 export default function PostReview(props) {
   const [ShowErrorAlert, setShowErrorAlert] = useState(false);
@@ -32,6 +32,7 @@ export default function PostReview(props) {
 
   const handlePostSubmit = (e) => {
     e.preventDefault();
+    setShowErrorAlert(false);
     setMovieData({
       ...MovieData,
     });
@@ -82,6 +83,26 @@ export default function PostReview(props) {
                   height: "10rem",
                 }}
               />
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  } else if (postReview.isError) {
+    return (
+      <div>
+        <Container style={{ marginTop: "20rem" }}>
+          <Row>
+            <Col style={{ textAlign: "center" }}>
+              <h2>Review submission failed. Please try again.</h2>
+              <Image
+                src={failedIcon}
+                style={{
+                  width: "10rem",
+                  height: "10rem",
+                }}
+              />
+              <p>{postReview.error}</p>
             </Col>
           </Row>
         </Container>
