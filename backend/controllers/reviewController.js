@@ -24,9 +24,18 @@ const getReviewById = async (req, res) => {
   res.json(await reviewModel.findOne({ _id: req.query.reviewId }));
 };
 
+const getReviewsByMovieId = async (req, res) => {
+  try {
+    res.json(await reviewModel.find({ movieId: req.query.q }));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const postReview = async (req, res) => {
   try {
     let newPost = new reviewModel({
+      isSpoiler: req.body.isSpoiler,
       movieId: req.body.movieId,
       owner: req.user._id,
       ownerUsername: req.user.username,
@@ -55,4 +64,5 @@ module.exports = {
   postReview,
   getReviewById,
   getReviewsByUserId,
+  getReviewsByMovieId,
 };

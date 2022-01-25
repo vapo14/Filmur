@@ -11,17 +11,7 @@
 }
 
 #collasible-nav-dropdown {
-  font-size: 18px;
-}
-
-@media screen and (max-width: 844px) {
-  .menu-icons {
-    width: 100%;
-    padding: 0;
-  }
-  #collasible-nav-dropdown {
-    font-size: 12px;
-  }
+  font-size: 14px;
 }
 
 .navbar-nav > a {
@@ -30,4 +20,26 @@
 
 .navbar-nav {
   align-items: center;
+}
+
+.navbar-search-form {
+  flex: 1;
+  justify-self: center;
+}
+
+@media screen and (min-width: 769px) {
+  .menu-icons {
+    padding: 0;
+    margin: 0;
+  }
+  #collasible-nav-dropdown {
+    font-size: 18px;
+  }
+  .navbar-expand .navbar-nav .dropdown-menu {
+    left: -100%;
+  }
+}
+
+.navbar-collapse {
+  flex-grow: 0;
 }

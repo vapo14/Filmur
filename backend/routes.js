@@ -37,8 +37,13 @@ router.get(
   checkAuthenticated,
   reviewController.getReviewsByUserId
 );
+router.get(
+  "/reviews/filter",
+  checkAuthenticated,
+  reviewController.getReviewsByMovieId
+);
 
 // ======= SEARCH ROUTES =======
-router.get("/search", searchController.searchMovie);
+router.get("/search", checkAuthenticated, searchController.searchMovie);
 
 module.exports = router;

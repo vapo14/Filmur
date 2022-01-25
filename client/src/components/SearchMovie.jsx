@@ -18,15 +18,18 @@ export default function SearchMovie(props) {
           setSearchData({ ...SearchData, results: data.data });
         };
         handleAPICall();
-      }, 700);
+      }, 200);
       return () => clearTimeout(timeoutID);
+    } else {
+      setSearchData({ ...SearchData, results: [], slug: "" });
+      props.setMovieData({ ...props.MovieData, movieId: "" });
     }
   }, [SearchData.slug]);
 
   const handleSelectMovie = (movieId, imgURI, idx) => {
     props.setMovieData({ ...props.MovieData, movieId, imgURI });
     setSelectedMovieIdx(idx);
-    console.log("Selected movie: ", movieId, imgURI, SelectedMovieIdx);
+    console.log("selected: ", props.MovieData);
   };
 
   return (

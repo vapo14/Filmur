@@ -24,6 +24,7 @@ export default function PostReview(props) {
     title: "",
     content: "",
     imgURI: "",
+    isSpoiler: false,
   });
 
   const postReview = useMutation((newReview) => {
@@ -156,6 +157,19 @@ export default function PostReview(props) {
                   MovieData={MovieData}
                 ></YarnRating>
                 <Form.Group className="mb-3">
+                  <Form.Check
+                    type="switch"
+                    id="custom-switch"
+                    label="This review contains spoilers"
+                    style={{ marginTop: "2rem", marginBottom: "2rem" }}
+                    value={MovieData.isSpoiler}
+                    onChange={() =>
+                      setMovieData({
+                        ...MovieData,
+                        isSpoiler: !MovieData.isSpoiler,
+                      })
+                    }
+                  />
                   <Form.Label>Content</Form.Label>
                   <FormControl
                     as="textarea"

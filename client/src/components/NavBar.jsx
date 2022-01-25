@@ -17,7 +17,7 @@ export default function NavBar() {
   };
 
   return (
-    <Navbar className="navbar" variant="dark">
+    <Navbar className="navbar" variant="dark" collapseOnSelect>
       <Container>
         <Navbar.Brand>
           <Link to="/home">
@@ -26,7 +26,6 @@ export default function NavBar() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto"></Nav>
           <Nav>
             <Link to="/post">
               <img className="menu-icons" src={addButton} alt="" />

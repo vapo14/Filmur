@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema(
   {
+    isSpoiler: {
+      type: Boolean,
+      required: true,
+    },
     movieId: {
       type: String,
       required: true,
