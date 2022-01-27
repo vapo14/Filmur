@@ -26,6 +26,10 @@ a:hover {
   color: white;
 }
 
+.main-app-container {
+  padding-top: 5rem;
+}
+
 .main-button {
   background-color: #ff9900;
   color: white;

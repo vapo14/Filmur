@@ -20,10 +20,20 @@ const getReviewsByUserId = async (req, res) => {
   );
 };
 
+/**
+ * Get review by review id.
+ * @param {*} req
+ * @param {*} res
+ */
 const getReviewById = async (req, res) => {
   res.json(await reviewModel.findOne({ _id: req.query.reviewId }));
 };
 
+/**
+ * Get review by movie ID.
+ * @param {*} req
+ * @param {*} res
+ */
 const getReviewsByMovieId = async (req, res) => {
   try {
     res.json(await reviewModel.find({ movieId: req.query.q }));
@@ -32,6 +42,11 @@ const getReviewsByMovieId = async (req, res) => {
   }
 };
 
+/**
+ * Post a new review using the request body data.
+ * @param {*} req
+ * @param {*} res
+ */
 const postReview = async (req, res) => {
   try {
     let newPost = new reviewModel({
@@ -59,10 +74,45 @@ const postReview = async (req, res) => {
   }
 };
 
+const likeReview = async (req, res) => {
+  let reviewId = req.query.reviewId;
+  // determine if the user has already liked the review
+  let hasLiked = await reviewModel.findOne({
+    _id: reviewId,
+    userLikes: req.user._id,
+  });
+  if (hasLiked) {
+    try {
+      await reviewModel.findByIdAndUpdate(reviewId, {
+        $pull: { userLikes: req.user._id },
+        $inc: { likeCount: -1 },
+      });
+      return res.status(200).json({ status: "UNLIKED_REVIEW" });
+    } catch (err) {
+      console.log(err);
+      res.json(err);
+      return;
+    }
+  } else {
+    try {
+      await reviewModel.findByIdAndUpdate(reviewId, {
+        $push: { userLikes: req.user._id },
+        $inc: { likeCount: 1 },
+      });
+      return res.status(200).json({ status: "LIKED_REVIEW" });
+    } catch (err) {
+      console.log(err);
+      res.json(err);
+      return;
+    }
+  }
+};
+
 module.exports = {
   getAllReviews,
   postReview,
   getReviewById,
   getReviewsByUserId,
   getReviewsByMovieId,
+  likeReview,
 };

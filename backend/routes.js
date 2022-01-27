@@ -42,6 +42,7 @@ router.get(
   checkAuthenticated,
   reviewController.getReviewsByMovieId
 );
+router.put("/review/like", checkAuthenticated, reviewController.likeReview);
 
 // ======= SEARCH ROUTES =======
 router.get("/search", checkAuthenticated, searchController.searchMovie);

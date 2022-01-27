@@ -16,24 +16,14 @@ import "../css/reviews.css";
 import YarnRating from "./YarnRating";
 import spoiler_alert from "../assets/icons/spoiler_alert.png";
 import LikeAndSave from "./LikeAndSave";
+import useAuth from "../hooks/useAuth";
 
 export default function Reviews() {
-  // const [MovieData, setMovieData] = useState({});
-
   const { isLoading, isError, error, data } = useQuery("reviews", async () => {
     const data = await axiosInstance.get("/reviews");
     return data.data;
   });
-
-  // const filteredReviews = useQuery("filteredReviews", async () => {
-  //   const data = await axiosInstance.get("/reviews/filter", {
-  //     params: {
-  //       q: MovieData.movieId,
-  //     },
-  //   });
-  //   console.log("filtered results: ", data.data);
-  //   return data.data;
-  // });
+  const { UserData } = useAuth();
 
   if (isLoading) {
     return (
@@ -55,7 +45,6 @@ export default function Reviews() {
       </div>
     );
   }
-
   if (isError) {
     return (
       <div>
@@ -82,12 +71,6 @@ export default function Reviews() {
     <div>
       <Container className="review-container">
         <Row>
-          {/* <Col md={4}>
-            <SearchMovie
-              setMovieData={setMovieData}
-              MovieData={MovieData}
-            ></SearchMovie>
-          </Col> */}
           <Col md={12}>
             {data.map((review) => {
               return (
@@ -122,7 +105,11 @@ export default function Reviews() {
                         </Link>
                       </div>
                       <div className="card-right-side">
-                        <LikeAndSave />
+                        <LikeAndSave
+                          isLiked={review.userLikes.includes(UserData.userId)}
+                          reviewId={review._id}
+                          likeCount={review.likeCount}
+                        />
                       </div>
                     </div>
                   </Card.Body>

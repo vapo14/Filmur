@@ -8,7 +8,7 @@ import SavedReviews from "./SavedReviews";
 
 export default function MainContainer() {
   return (
-    <div>
+    <div className="main-app-container">
       <NavBar></NavBar>
       <Routes>
         <Route path="/home" element={<Reviews></Reviews>}></Route>

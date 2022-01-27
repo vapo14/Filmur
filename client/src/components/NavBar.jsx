@@ -17,7 +17,7 @@ export default function NavBar() {
   };
 
   return (
-    <Navbar className="navbar" variant="dark" collapseOnSelect>
+    <Navbar className="navbar" fixed="top" variant="dark" collapseOnSelect>
       <Container>
         <Navbar.Brand>
           <Link to="/home">

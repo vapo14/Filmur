@@ -1,11 +1,24 @@
 import { React, useState } from "react";
 import "../css/likeAndSave.css";
+import { useMutation } from "react-query";
+import axiosInstance from "../api/axiosInstance";
 
-export default function LikeAndSave() {
-  const [Liked, setLiked] = useState(false);
+export default function LikeAndSave(props) {
+  const [Liked, setLiked] = useState(props.isLiked);
+  const [LikeCount, setLikeCount] = useState(props.likeCount);
+
+  const likeReview = useMutation((reviewId) => {
+    return axiosInstance.put("/review/like", null, { params: { reviewId } });
+  });
 
   const handleLikeButton = () => {
+    if (Liked) {
+      setLikeCount(LikeCount - 1);
+    } else {
+      setLikeCount(LikeCount + 1);
+    }
     setLiked(!Liked);
+    likeReview.mutate(props.reviewId);
   };
 
   return (
@@ -18,7 +31,7 @@ export default function LikeAndSave() {
           <div className="heart-animation-1"></div>
           <div className="heart-animation-2"></div>
         </span>
-        Like
+        {LikeCount}
       </button>
     </div>
   );

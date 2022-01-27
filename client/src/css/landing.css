@@ -65,3 +65,11 @@
   border-color: #ff9900;
   box-shadow: 0 0 0 0.25rem #ff99004f;
 }
+
+.form-control.validated:focus {
+  border-color: rgb(0, 136, 0);
+  box-shadow: 0 0 0 0.25rem rgba(12, 194, 12, 0.342);
+}
+
+.form-control.not-validated:focus {
+}

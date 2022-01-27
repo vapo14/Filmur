@@ -3,6 +3,10 @@
   flex-direction: column;
 }
 
+.like-count {
+  margin: 0.5rem;
+}
+
 /* ==== HEART / LIKE ANIMATIONS ==== */
 
 .like-button {

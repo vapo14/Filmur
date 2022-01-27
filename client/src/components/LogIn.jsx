@@ -21,6 +21,13 @@ export default function LogIn() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  const usernameRegEx = /^[a-z0-9_.]+$/;
+  const [Validated, setValidated] = useState({
+    username: false,
+    password: false,
+    confirmPassword: false,
+  });
+
   const [LoginModal, setLoginModal] = useState(false);
   const [SignUpModal, setSignUpModal] = useState(false);
   const [Username, setUsername] = useState("");
@@ -63,6 +70,13 @@ export default function LogIn() {
       setEnableSignInButton(false);
     } else {
       setSuccess(true);
+    }
+  };
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+    if (usernameRegEx.exec(Username)) {
+      setValidated({ ...Validated, username: true });
     }
   };
 
@@ -199,8 +213,9 @@ export default function LogIn() {
                 <Form.Control
                   type="username"
                   placeholder="Enter username"
+                  className={Validated.username ? "validated" : ""}
                   required
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => handleUsernameChange(e)}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="signUpPassword">
