@@ -9,33 +9,24 @@ const bcrypt = require("bcrypt");
  * @returns response
  */
 const createUser = async (req, res) => {
-  // TODO: user info validation
-  const exists = await user.find({ username: req.body.username });
-  if (exists.length >= 1) {
-    return res.json({
-      status: "FAILED",
-      message: "This username already exists.",
+  try {
+    // create salt object with bcrypt
+    const salt = await bcrypt.genSalt();
+    // hash the password using created salt, can also use shorthand hash(pass, <salt value>)
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    // create new user object based on mongoose user schema
+    let newUser = new user({
+      username: req.body.username,
+      password: hashedPassword,
     });
-  } else {
-    try {
-      // create salt object with bcrypt
-      const salt = await bcrypt.genSalt();
-      // hash the password using created salt, can also use shorthand hash(pass, <salt value>)
-      const hashedPassword = await bcrypt.hash(req.body.password, salt);
-      // create new user object based on mongoose user schema
-      let newUser = new user({
-        username: req.body.username,
-        password: hashedPassword,
-      });
-      // save the user, if error is presented send response accordingly
-      newUser.save((err) => {
-        if (err) res.status(500).send();
-        return res.status(200).json({ status: "USER_SAVED" });
-      });
-    } catch {
-      // catch error and send response
-      return res.status(500).send();
-    }
+    // save the user, if error is presented send response accordingly
+    newUser.save((err) => {
+      if (err) res.status(500).send();
+      return res.status(200).json({ status: "USER_SAVED" });
+    });
+  } catch {
+    // catch error and send response
+    return res.status(500).send();
   }
 };
 
@@ -75,4 +66,35 @@ const logoutUser = (req, res) => {
   }
 };
 
-module.exports = { createUser, loginUser, logoutUser };
+const validateUser = async (req, res) => {
+  let userRegex = /^[a-zA-Z][a-zA-Z0-9-_]{3,32}\S*$/i;
+
+  // if the username is invalid, return error message
+  if (!userRegex.test(req.body.username)) {
+    return res.json({
+      status: "FAILED",
+      message:
+        "Username must have at least 3 alphanumeric characters, and no whitespaces. Underscores are allowed 😊.",
+    });
+  }
+  // if the username exists in the database, return error message
+  const exists = await user.find({ username: req.body.username });
+  if (exists.length >= 1) {
+    return res.json({
+      status: "FAILED",
+      message: "This username already exists. 😖",
+    });
+  }
+
+  // if the passwords do not match, return error message
+  if (req.body.password !== req.body.confirmPassword) {
+    return res.json({
+      status: "FAILED",
+      message: "Passwords do not match 🥺",
+    });
+  }
+
+  return res.json({ status: "SUCCESS", message: "User data is valid." });
+};
+
+module.exports = { createUser, loginUser, logoutUser, validateUser };

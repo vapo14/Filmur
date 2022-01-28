@@ -27,6 +27,12 @@ router.post(
 
 router.delete("/user/logout", checkAuthenticated, userController.logoutUser);
 
+router.post(
+  "/user/validate",
+  checkNotAuthenticated,
+  userController.validateUser
+);
+
 // ======= REVIEWS ROUTES =======
 
 router.get("/reviews", checkAuthenticated, reviewController.getAllReviews);

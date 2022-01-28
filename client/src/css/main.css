@@ -84,6 +84,8 @@ a:hover {
   background: #be7507;
 }
 
+/* ==== MAIN TOASTS ==== */
+
 .main-error-toast {
   margin: 2rem auto 2rem auto;
   width: fit-content;
@@ -94,6 +96,20 @@ a:hover {
 }
 
 .main-error-toast > .toast-header {
+  background-color: transparent;
+  color: white;
+}
+
+.main-success-toast {
+  margin: 2rem auto 2rem auto;
+  width: fit-content;
+  background-color: #0ebb08;
+  color: white;
+  border-radius: 1rem;
+  border: none;
+}
+
+.main-success-toast > .toast-header {
   background-color: transparent;
   color: white;
 }

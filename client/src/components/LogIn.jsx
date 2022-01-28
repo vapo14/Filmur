@@ -10,32 +10,20 @@ import {
   Button,
   Modal,
   Form,
-  Alert,
   Toast,
 } from "react-bootstrap";
 import catGIF from "../assets/landing/cat.gif";
 import mainLogo from "../assets/landing/text.png";
-import axiosInstance from "../api/axiosInstance";
+import SignIn from "./SignIn";
 
 export default function LogIn() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const usernameRegEx = /^[a-z0-9_.]+$/;
-  const [Validated, setValidated] = useState({
-    username: false,
-    password: false,
-    confirmPassword: false,
-  });
-
   const [LoginModal, setLoginModal] = useState(false);
   const [SignUpModal, setSignUpModal] = useState(false);
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
-  const [ConfirmPassword, setConfirmPassword] = useState("");
-  const [UserExistsAlert, setUserExistsAlert] = useState(false);
-  const [Success, setSuccess] = useState(false);
-  const [EnableSignInButton, setEnableSignInButton] = useState(false);
   const [EnableLogInButton, setEnableLogInButton] = useState(false);
   const [InvalidCredentialsAlert, setInvalidCredentialsAlert] = useState(false);
 
@@ -53,30 +41,6 @@ export default function LogIn() {
     } else {
       setInvalidCredentialsAlert(true);
       setEnableLogInButton(false);
-    }
-  };
-
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    setUserExistsAlert(false);
-    setEnableSignInButton(true);
-    let credentials = {
-      username: Username,
-      password: Password,
-    };
-    const data = await axiosInstance.post("/user/create", credentials);
-    if (data.status === "FAILED") {
-      setUserExistsAlert(true);
-      setEnableSignInButton(false);
-    } else {
-      setSuccess(true);
-    }
-  };
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-    if (usernameRegEx.exec(Username)) {
-      setValidated({ ...Validated, username: true });
     }
   };
 
@@ -201,68 +165,7 @@ export default function LogIn() {
           >
             Create your account
           </h3>
-          <Container>
-            <Form
-              style={{ textAlign: "left" }}
-              onSubmit={(e) => {
-                handleSignUp(e);
-              }}
-            >
-              <Form.Group className="mb-3" controlId="signUpUsername">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                  type="username"
-                  placeholder="Enter username"
-                  className={Validated.username ? "validated" : ""}
-                  required
-                  onChange={(e) => handleUsernameChange(e)}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="signUpPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  required
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="signUpConfirmPassword">
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  required
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </Form.Group>
-              <Alert
-                show={UserExistsAlert}
-                onClose={() => setUserExistsAlert(false)}
-                variant="danger"
-                dismissible
-              >
-                <Alert.Heading>User already exists!</Alert.Heading>
-                <p>Try with a different username</p>
-              </Alert>
-              <Alert
-                show={Success}
-                onClose={() => setSuccess(false)}
-                variant="success"
-                dismissible
-              >
-                <Alert.Heading>User created!</Alert.Heading>
-                <p>Use your new username and password to login.</p>
-              </Alert>
-              <Button
-                className="main-button"
-                type="submit"
-                disabled={EnableSignInButton}
-              >
-                Sign Up
-              </Button>
-            </Form>
-          </Container>
+          <SignIn />
         </Modal.Body>
       </Modal>
     </div>
