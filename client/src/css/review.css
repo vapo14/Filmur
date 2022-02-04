@@ -1,9 +1,5 @@
 .big-review-card.card {
-  width: fit-content;
-  height: fit-content;
-  padding: 2rem;
-  max-height: fit-content;
-  min-width: 100%;
+  padding: 0;
 }
 
 .big-review-img.card-img-top {
@@ -13,5 +9,18 @@
 }
 
 .big-review-card.card > .card-body {
-  padding: 4rem;
+  padding: 1rem;
+}
+
+@media screen and(min-width: 960px) {
+  .big-review-card.card {
+    width: fit-content;
+    height: fit-content;
+    padding: 2rem;
+    max-height: fit-content;
+    min-width: 100%;
+  }
+  .big-review-card.card > .card-body {
+    padding: 4rem;
+  }
 }

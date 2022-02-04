@@ -30,6 +30,10 @@
   justify-self: center;
 }
 
+.navbar-expand .navbar-nav .dropdown-menu {
+  left: -5rem;
+}
+
 @media screen and (min-width: 769px) {
   .menu-icons {
     padding: 0;
@@ -39,7 +43,7 @@
     font-size: 18px;
   }
   .navbar-expand .navbar-nav .dropdown-menu {
-    left: -100%;
+    left: -10%;
   }
 }
 

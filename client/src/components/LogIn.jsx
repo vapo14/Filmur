@@ -165,7 +165,7 @@ export default function LogIn() {
           >
             Create your account
           </h3>
-          <SignIn />
+          <SignIn setSignUpModal={setSignUpModal} />
         </Modal.Body>
       </Modal>
     </div>

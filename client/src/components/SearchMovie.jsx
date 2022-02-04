@@ -10,15 +10,15 @@ export default function SearchMovie(props) {
   useEffect(() => {
     //api call
     if (SearchData.slug !== "") {
-      const timeoutID = setTimeout(() => {
+      const timeoutID = setTimeout(async () => {
         const handleAPICall = async () => {
           const data = await axiosInstance.get("/search", {
             params: { q: SearchData.slug },
           });
           setSearchData({ ...SearchData, results: data.data });
         };
-        handleAPICall();
-      }, 200);
+        await handleAPICall();
+      }, 500);
       return () => clearTimeout(timeoutID);
     } else {
       setSearchData({ ...SearchData, results: [], slug: "" });
