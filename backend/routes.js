@@ -56,6 +56,8 @@ router.get(
 
 router.put("/review/like", checkAuthenticated, reviewController.likeReview);
 
+router.delete("/review/:id", checkAuthenticated, reviewController.deleteReview);
+
 // ======= SEARCH ROUTES =======
 router.get("/search", checkAuthenticated, searchController.searchMovie);
 

@@ -16,6 +16,7 @@ import LikeAndSave from "./LikeAndSave";
 import { Link } from "react-router-dom";
 import spoiler_alert from "../assets/icons/spoiler_alert.png";
 import useAuth from "../hooks/useAuth";
+import sleepCat from "../assets/imgs/sleeping_cat.png";
 
 export default function SavedReviews() {
   const userReviews = useQuery("userReviews", async () => {
@@ -115,6 +116,24 @@ export default function SavedReviews() {
                 </Card>
               );
             })}
+            {userReviews.data.length === 0 ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  padding: "2rem",
+                }}
+              >
+                <Image src={sleepCat} alt="sleeping cat" width="60%"></Image>
+                <p style={{ color: "#505050" }}>
+                  Looks like there are no reviews yet! Press the + button to
+                  create one!
+                </p>
+              </div>
+            ) : (
+              ""
+            )}
           </Col>
         </Row>
       </Container>

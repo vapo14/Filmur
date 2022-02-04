@@ -30,6 +30,15 @@ a:hover {
   padding-top: 5rem;
 }
 
+.btn-secondary {
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.5rem;
+  width: fit-content;
+  padding: 0.5rem 2rem;
+}
+
 .main-button {
   background-color: #ff9900;
   color: white;
@@ -169,4 +178,30 @@ a:hover {
 .dropdown-item.active,
 .dropdown-item:active {
   background-color: #ff9900;
+}
+
+.main-delete-button {
+  background-color: #ff5145;
+  margin-bottom: 0;
+}
+
+.main-delete-button:active {
+  background-color: #c44037;
+}
+
+.main-delete-button:focus {
+  background-color: #c44037;
+}
+
+.main-delete-button:hover {
+  background-color: #c44037;
+}
+
+.modal-content {
+  border: none;
+}
+
+.section-title {
+  color: #ff9900;
+  text-shadow: 0px 0px 8px rgba(255, 153, 0, 0.66);
 }

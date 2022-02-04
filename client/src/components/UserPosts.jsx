@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState } from "react";
 import { useQuery } from "react-query";
 import axiosInstance from "../api/axiosInstance";
 import {
@@ -10,18 +10,25 @@ import {
   Card,
   Button,
   Image,
+  Modal,
 } from "react-bootstrap";
 import YarnRating from "./YarnRating";
 import LikeAndSave from "./LikeAndSave";
 import { Link } from "react-router-dom";
 import spoiler_alert from "../assets/icons/spoiler_alert.png";
 import useAuth from "../hooks/useAuth";
+import DeleteReview from "./DeleteReview";
+import sleepCat from "../assets/imgs/sleeping_cat.png";
 
 export default function SavedReviews() {
+  const [ShowConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const [selectedReviewId, setSelectedReviewId] = useState("");
+
   const userReviews = useQuery("userReviews", async () => {
     const data = await axiosInstance.get("/reviews/user");
     return data.data;
   });
+
   const { UserData } = useAuth();
 
   if (userReviews.isLoading) {
@@ -66,8 +73,18 @@ export default function SavedReviews() {
       </div>
     );
   }
+
   return (
     <div>
+      <Modal
+        show={ShowConfirmDeleteModal}
+        onHide={() => setShowConfirmDeleteModal(false)}
+      >
+        <DeleteReview
+          setShowConfirmDeleteModal={setShowConfirmDeleteModal}
+          reviewId={selectedReviewId}
+        ></DeleteReview>
+      </Modal>
       <Container className="review-container">
         <Row>
           <Col md={12}>
@@ -97,11 +114,30 @@ export default function SavedReviews() {
                         <Card.Text>
                           {review.content.slice(0, 100) + " ..."}
                         </Card.Text>
-                        <Link to={`/review/${review._id}`}>
-                          <Button className="main-button" id="read-more-button">
-                            Read more
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <Link to={`/review/${review._id}`}>
+                            <Button
+                              className="main-button"
+                              id="read-more-button"
+                            >
+                              Read more
+                            </Button>
+                          </Link>
+                          <Button
+                            className="main-button main-delete-button"
+                            onClick={() => {
+                              setSelectedReviewId(review._id);
+                              setShowConfirmDeleteModal(true);
+                            }}
+                          >
+                            Delete Review
                           </Button>
-                        </Link>
+                        </div>
                       </div>
                       <div className="card-right-side">
                         <LikeAndSave
@@ -115,6 +151,24 @@ export default function SavedReviews() {
                 </Card>
               );
             })}
+            {userReviews.data.length === 0 ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  padding: "2rem",
+                }}
+              >
+                <Image src={sleepCat} alt="sleeping cat" width="60%"></Image>
+                <p style={{ color: "#505050" }}>
+                  Looks like there are no reviews yet! Press the + button to
+                  create one!
+                </p>
+              </div>
+            ) : (
+              ""
+            )}
           </Col>
         </Row>
       </Container>

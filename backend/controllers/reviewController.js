@@ -117,6 +117,21 @@ const likeReview = async (req, res) => {
   }
 };
 
+const deleteReview = async (req, res) => {
+  try {
+    await reviewModel.findByIdAndDelete(req.params.id);
+    res.json({
+      status: "success",
+      message: "Successfully deleted your review!",
+    });
+  } catch (err) {
+    res.json({
+      status: "failed",
+      message: "Could not complete operation. Refresh and try again.",
+    });
+  }
+};
+
 module.exports = {
   getAllReviews,
   postReview,
@@ -125,4 +140,5 @@ module.exports = {
   getReviewsByMovieId,
   likeReview,
   getReviewsLikedByUser,
+  deleteReview,
 };
