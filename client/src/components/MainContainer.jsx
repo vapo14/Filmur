@@ -5,6 +5,7 @@ import PostReview from "./PostReview";
 import Review from "./Review";
 import Reviews from "./Reviews";
 import SavedReviews from "./SavedReviews";
+import UserPosts from "./UserPosts";
 
 export default function MainContainer() {
   return (
@@ -15,6 +16,7 @@ export default function MainContainer() {
         <Route path="/post" element={<PostReview></PostReview>}></Route>
         <Route path="/saved" element={<SavedReviews></SavedReviews>}></Route>
         <Route path="/review/:id" element={<Review></Review>}></Route>
+        <Route path="/user/posts" element={<UserPosts></UserPosts>}></Route>
       </Routes>
     </div>
   );

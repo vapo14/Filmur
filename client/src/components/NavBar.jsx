@@ -34,9 +34,9 @@ export default function NavBar() {
               <img className="menu-icons" src={savedIcon} alt="" />
             </Link>
             <NavDropdown title={UserData.username} id="collasible-nav-dropdown">
-              <NavDropdown.Item href="" disabled>
-                Posts <Badge bg="secondary">Coming Soon</Badge>
-              </NavDropdown.Item>
+              <Link to="/user/posts" className="dropdown-item">
+                My Posts
+              </Link>
               <NavDropdown.Item href="" disabled>
                 Settings <Badge bg="secondary">Coming Soon</Badge>
               </NavDropdown.Item>

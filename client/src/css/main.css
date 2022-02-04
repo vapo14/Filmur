@@ -165,3 +165,8 @@ a:hover {
   background-color: #ff9900;
   border-color: #ff9900;
 }
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: #ff9900;
+}

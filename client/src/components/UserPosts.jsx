@@ -19,7 +19,7 @@ import useAuth from "../hooks/useAuth";
 
 export default function SavedReviews() {
   const userReviews = useQuery("userReviews", async () => {
-    const data = await axiosInstance.get("/reviews/liked");
+    const data = await axiosInstance.get("/reviews/user");
     return data.data;
   });
   const { UserData } = useAuth();

@@ -30,6 +30,15 @@ const getReviewById = async (req, res) => {
 };
 
 /**
+ * Get reviews that the user has liked/saved
+ * @param {*} req
+ * @param {*} res
+ */
+const getReviewsLikedByUser = async (req, res) => {
+  res.json(await reviewModel.find({ userLikes: req.user._id }));
+};
+
+/**
  * Get review by movie ID.
  * @param {*} req
  * @param {*} res
@@ -115,4 +124,5 @@ module.exports = {
   getReviewsByUserId,
   getReviewsByMovieId,
   likeReview,
+  getReviewsLikedByUser,
 };
