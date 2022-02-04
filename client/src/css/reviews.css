@@ -39,6 +39,7 @@
   .card {
     flex-direction: row;
     margin-left: auto;
+    width: 50rem;
     margin-right: auto;
   }
   .card-img-top {

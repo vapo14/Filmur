@@ -67,6 +67,7 @@ const logoutUser = (req, res) => {
 };
 
 const validateUser = async (req, res) => {
+  // TODO: accept ñ, and be more specific to user on error message
   let userRegex = /^[a-zA-Z][a-zA-Z0-9-_]{3,32}\S*$/i;
 
   // if the username is invalid, return error message
@@ -74,7 +75,7 @@ const validateUser = async (req, res) => {
     return res.json({
       status: "FAILED",
       message:
-        "Username must have at least 3 alphanumeric characters, and no whitespaces. Underscores are allowed 😊.",
+        "Username must have at least 3 alphanumeric characters, and no whitespaces or special characters i.e: $#^%. Underscores are allowed 😊.",
     });
   }
   // if the username exists in the database, return error message

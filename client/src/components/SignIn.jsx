@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import { Container, Toast, Form, Button } from "react-bootstrap";
 import axiosInstance from "../api/axiosInstance";
 
-export default function SignIn() {
+export default function SignIn(props) {
   const [InvalidCredentialsAlert, setInvalidCredentialsAlert] = useState({
     show: false,
     message: "",
@@ -58,6 +58,9 @@ export default function SignIn() {
         setEnableSignInButton(false);
       } else {
         setSuccess(true);
+        setTimeout(() => {
+          props.setSignUpModal(false);
+        }, 500);
         return;
       }
     }
@@ -124,6 +127,9 @@ export default function SignIn() {
             required
             onChange={(e) => handleChange(e)}
           />
+          <Form.Text className="text-muted">
+            A good username may look like this: my_user3516
+          </Form.Text>
         </Form.Group>
         <Form.Group className="mb-3" controlId="signUpPassword">
           <Form.Label>Password</Form.Label>

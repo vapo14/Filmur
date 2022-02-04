@@ -40,7 +40,15 @@ export default function NavBar() {
             <Link to="/saved">
               <Image className="menu-icons" src={savedIcon} alt="" fluid />
             </Link>
-            <NavDropdown title={UserData.username} id="collasible-nav-dropdown">
+
+            <NavDropdown
+              title={
+                UserData.username.length > 10
+                  ? UserData.username.substr(0, 10) + "..."
+                  : UserData.username
+              }
+              id="collasible-nav-dropdown"
+            >
               <Link to="/user/posts" className="dropdown-item">
                 My Posts
               </Link>
