@@ -12,7 +12,7 @@
   padding: 1rem;
 }
 
-@media screen and(min-width: 960px) {
+@media screen and (min-width: 980px) {
   .big-review-card.card {
     width: fit-content;
     height: fit-content;
@@ -21,6 +21,6 @@
     min-width: 100%;
   }
   .big-review-card.card > .card-body {
-    padding: 4rem;
+    padding: 2rem;
   }
 }
